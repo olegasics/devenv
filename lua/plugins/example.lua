@@ -11,15 +11,9 @@ if true then return {} end
 return {
   -- add gruvbox
   { "tweekmonster/django-plus.vim" },
-  { "HallerPatrick/py_lsp.nvim"},
+  { "HallerPatrick/py_lsp.nvim" },
   { "ellisonleao/gruvbox.nvim" },
   -- Configure LazyVim to load gruvbox
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "kanagawa-lotus",
-    },
-  },
 
   -- change trouble config
   {
@@ -29,7 +23,9 @@ return {
   },
 
   -- disable trouble
-  { "folke/trouble.nvim", enabled = false },
+  { "folke/trouble.nvim",                             
+    enabled = false
+  },
 
   -- override nvim-cmp and add cmp-emoji
   {
@@ -70,7 +66,7 @@ return {
       init = function()
         require("lazyvim.util").lsp.on_attach(function(_, buffer)
           -- stylua: ignore
-          vim.keymap.set( "n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
+          vim.keymap.set("n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
           vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
         end)
       end,
@@ -82,15 +78,15 @@ return {
         -- tsserver will be automatically installed with mason and loaded with lspconfig
         tsserver = {},
         pyright = {},
+        vlang = {}
       },
       -- you can do any additional lsp server setup here
       -- return true if you don't want this server to be setup with lspconfig
       ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
       setup = {
         -- example to setup with typescript.nvim
-        tsserver = function(_, opts)
-          require("typescript").setup({ server = opts })
-          require("python").setyp({server = opts})
+        ["*"] = function(_, opts)
+          require("*").setup({ server = opts })
           return true
         end,
         -- Specify * to use this function as a fallback for any server
@@ -103,6 +99,8 @@ return {
   -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
   { import = "lazyvim.plugins.extras.lang.typescript" },
   { import = "lazyvim.plugins.extras.lang.pyright" },
+  { import = "lazyvim.plugins.extras.lang.raff" },
+  { import = "lazyvim.plugins.extras.lang.vlang" },
 
   -- add more treesitter parsers
   {
@@ -123,6 +121,7 @@ return {
         "typescript",
         "vim",
         "yaml",
+        "vlang"
       },
     },
   },
@@ -159,29 +158,5 @@ return {
         "flake8",
       },
     },
-  },
-  {
-    "nvim-neotest/neotest",
-    event = "VeryLazy",
-    config = function()
-      require("neotest").setup {
-        adapters = {
-          require "neotest-jest" {
-            jestCommand = "npm test --",
-            jestConfigFile = "custom.jest.config.ts",
-            env = { CI = true },
-            cwd = function(path)
-              return vim.fn.getcwd()
-            end,
-          },
-        },
-      }
-    end,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "antoinemadec/FixCursorHold.nvim",
-      "haydenmeade/neotest-jest",
-    },
-  },
+  }
 }
