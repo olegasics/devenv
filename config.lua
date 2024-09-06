@@ -74,3 +74,9 @@ lvim.builtin.which_key.mappings["M"] = {
   name = "Curl",
   c = { "<cmd>lua require('curl').open_curl_tab()<cr>", "Send selected request" },
 }
+
+lvim.builtin.which_key.mappings["vs"] = { "<cmd>VenvSelect<cr>",
+  "Select venv" }
+
+lvim.builtin.which_key.mappings["vc"] = { "<cmd>VenvSelectCached<cr>",
+  "Select cache venv" }
